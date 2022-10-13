@@ -18,7 +18,7 @@ export default {
     methods:{
         upname(){
             this.$emit('msg',this.msg);
-            document.cookie = `${this.msg};`;
+            document.cookie = `${this.msg}; SameSite=None;`;
         }
     },
 }

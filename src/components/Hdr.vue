@@ -17,7 +17,7 @@
 export default {
     methods:{
         resetCook(){
-          document.cookie='nobody';
+          document.cookie='nobody; SameSite=None;';
           window.location.reload();
         }
     }

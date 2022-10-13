@@ -83,11 +83,6 @@
 </template>
 <script>
 export default {
-    data(){
-        return{
-            title: '',
-        }
-    },
     props:['title']
 }
 </script>
