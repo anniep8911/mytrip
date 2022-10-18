@@ -11,10 +11,11 @@ import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
 
 /* add some free styles */
 import { faTwitter } from '@fortawesome/free-brands-svg-icons'
+import router from './router'
 
 /* add icons to the library */
 library.add(faTwitter, faUserSecret, )
 
 
 
-createApp(App).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+createApp(App).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app')

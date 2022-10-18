@@ -18,7 +18,7 @@ export default {
     methods:{
         upname(){
             this.$emit('msg',this.msg);
-            document.cookie = `${this.msg}; SameSite=None;`;
+            document.cookie = `${this.msg}; path=/; expires = Tue, 19 Jan 2099 03:14:07 GMT`;
         }
     },
 }

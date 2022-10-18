@@ -1,9 +1,9 @@
 <template>
-    <div class="mnWrap">
+    <div class="mnWrap" v-bind:class=titleData.bgi>
         <main>
             <div class="mnLeft">
-                <h2>Trip store <br> your journey</h2>
-                <p>{{title}}님, {{hello}} 당신 여정의 시작과 끝까지,<br> 단 하나로 끝내는 트립스토어 입니다!</p>
+                <h2>{{titleData.title}}</h2>
+                <p v-if="titleData.sbtitle">{{visitor}}님,{{hello}}</p>
             </div>
             <div class="mnRight"></div>
         </main>
@@ -11,17 +11,25 @@
 </template>
 <script>
 export default {
+    props:['visitor','hello','titleData'],
     data(){
         return{
-        
+            bg :'bg02',
         }
     },
-    props:['title','hello'],
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
     div.mnWrap{
-        background-image: url('../assets/main.jpg');
+        background-image: url('../assets/main01.jpg');
+        opacity: 0;
+        transition : all 0.2s;
+        @for $i from 1 through 5{
+            &.bg0#{$i}{
+                background-image: url('../assets/main0#{$i}.jpg');
+                opacity: 1;
+            }
+        }
         background-position: top;
         background-size: cover;
         background-attachment: fixed;

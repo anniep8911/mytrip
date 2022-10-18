@@ -33,7 +33,7 @@ export default {
     
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
     div.bnrWrap{
         background-image: url('../assets/index_bnr01.jpg');
         margin-top: min(3rem,120px);
