@@ -1,9 +1,9 @@
 <template>
     <div class="hdrWrap">
-        <header>
+        <header :class="hdrCla">
             <h1 @click="findIndex(0)"><router-link to="./">tripstore</router-link></h1>
             <ul class="nav">
-                <li class="ham" @click="addClass" :class="ncl"></li>
+                <!-- <li class="ham" @click="addClass" :class="ncl"></li> -->
                 <li v-for="(tt,i) in liTitle" @click="findIndex(i+1)"><router-link :to="{path:'./cnt0'+(i+1)}" >{{tt}}</router-link></li>
                 <li @click="resetCook"><router-link to="./">reset</router-link></li>
             </ul>
@@ -16,7 +16,6 @@
                 <p v-if="now">{{visitor}}님,{{hello}}</p>
                 <p v-if="!now">{{visitor}}님,{{msg}}</p>
             </div>
-            <div class="mnRight"></div>
         </main>
     </div>
 </template>
@@ -32,6 +31,7 @@ export default {
             msg:'',
             now:true,
             ncl:'',
+            hdrCla:'',
         }
     },
     methods:{
@@ -69,42 +69,25 @@ export default {
 }
 </script>
 <style lang="scss">
-@mixin tab{
-    @media (min-width:0px) and (max-width:1024px) {
-      @content;
-    }
-}
-  @mixin mob{
-    @media (min-width:0px) and (max-width:420px) {
-      @content;
-    }
-}
-    div.hdrWrap{
-        background-color: rgba(0,0,0,0.7);
+@use './mixins.scss' as mix;
 
+   div.hdrWrap{
+        background-color: rgba(0,0,0,0.7);
         header{
-            width: 80%;
-            max-width: 1080px;
-            margin: 0 auto;
+            @include mix.grid(pc);
             display: flex;
             justify-content: space-between;
-            padding: 20px 0;
-            @include tab{width: 90%;max-width: 700px; padding: 10px 0;}
-            
+            @include mix.pdn(pc,top,0.5);
+            @include mix.pdn(pc,bottom,0.5);
         }
         h1{
             color:transparent;
+            @include mix.imgNw(center,contain);
             background-image: url('../assets/logo_name.png');
-            background-repeat: no-repeat;
-            background-position: left;
-            background-size: contain;
-            width: 20%;
-            height: min(1rem, 40px);
-            @include tab{
-                height: 25px;
-            }
+            width: mix.$wdPc*2;
             cursor: pointer;
             position: relative;
+            @include mix.heights(pc,1);
             a{
                 width: 100%;
                 height: 100%;
@@ -118,96 +101,129 @@ export default {
             color: #fff;
             text-transform: capitalize;
             font-weight: 700;
-            font-size: min(1.8em, 18px);
-            @include mob{
-                display: block;
-            }
-        
+            @include mix.fontz(pc,1.8);
+          
             li{
                 cursor: pointer;
                 margin-left: 20px;
-                line-height: min(1rem, 40px);   
-                &:nth-child(5):hover::before{
+                @include mix.lhz(pc,1);   
+                &:nth-last:hover::before{
                    content: '방문기록을 삭제하시려면 클릭하세요!';
                    display: block;
                    position: absolute;
                    top: 10px;
-                   font-size: 12px;
+                   font-size: 11px;
                    background-color: #fff;
                    color: #000;
-                   line-height: 20px;
-                }
-                &.ham{
-                    display: none;
-                    @include mob{
-                        display: block;
-                        width: 20px;
-                        height: 20px;
-                        background-color: #fc0;
-                        margin-left: auto;
-                        &~li{
-                            text-align: right;
-                            font-size: max(1.4em, 14px);
-                            line-height: max(2em ,20px);
-                            overflow: hidden;
-                            height: 0;
-                        }
-                    }
-                    &.close{
-                        &~li{
-                            height: max(2em ,20px);
-                        }
-                    }
+                   line-height: 15px;
                 }
             }
         }
     }
     div.mnWrap{
         background-image: url('../assets/main01.jpg');
-        background-position: top;
-        background-size: cover;
+        @include mix.imgNw(top,cover);
         background-attachment: fixed;
-        margin-top: max(-3rem, -120px);
-        padding: min(8rem, 320px) 0;
-        @include tab{margin-top: 0;padding: min(3rem, 120px) 0;background-size: 100%;}
+        @include mix.mzn(pc,top,-3);
+        @include mix.pdn(pc,top,8);
+        @include mix.pdn(pc,bottom,8);
+        @include mix.bgi('../assets/main0',1,4);
         transition: background-image 0.5s;
-        @for $i from 1 through 4{
-            &.i#{$i}{
-                background-image: url('../assets/main0#{$i+1}.jpg');
-            }
-        }
+
         main{
-            width: 80%;
-            max-width: 1080px;
-            margin: 0 auto;
+            @include mix.grid(pc);
+            @include mix.tab{
+                @include mix.grid(mob);
+            };
             color: #fff;
             display: flex;
             justify-content: space-between;
-            @include tab{
-                width: 90%;
-                max-width: 700px;
-            }
+
             .mnLeft{
-                width: 90%;
+                width: calc(mix.$wdPc * 10);
+                @include mix.tab{
+                    width: 100%;                
+                };
                 h2{
-                    font-size: min(7.2em, 72px);
-                    line-height: min(2rem, 80px);
-                    width: 80%;
+                    @include mix.fontz(pc,7.2);
+                    @include mix.lhz(pc,2);
                     text-transform: uppercase;
-                    @include tab{
-                        font-size:min(2.5em, 25px);
-                    }
+                    @include mix.tab{
+                        @include mix.fontz(mob,2.5);
+                        @include mix.lhz(mob,1); 
+                    };
                 }
-                p{
-                    width: 80%;
-                    font-size: min(2em, 20px);
-                    line-height: min(1rem, 40px);
-                    margin-top: min(0.5rem, 20px);
+                p{  
+                    @include mix.fontz(pc,2);
+                    @include mix.lhz(pc,1);
+                    @include mix.mzn(pc,top,0.5);
+                    @include mix.tab{
+                        @include mix.fontz(mob,1.5);
+                        @include mix.lhz(mob,0.5);
+                        @include mix.mzn(mob,top,0.5);
+                    };
                 }
-            }
-            .mnright{
-                width: 10%;
             }
         }
     }
+    @include mix.tab{
+        /*여기안에 태블릿 반응형 내용입력*/
+        div.hdrWrap{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+            header{
+                @include mix.grid('mob');
+                h1{
+                    @include mix.heights(mob,1);
+                    width:mix.$wdMob;
+                }
+                .nav{
+                    li{
+                        @include mix.lhz(mob,1);
+                        @include mix.fontz(mob,1.2);
+                    }
+                }
+            }
+        }
+        div.mnWrap{
+            @include mix.pdn(mob,bottom,2);
+        }
+    };
+    @include mix.mob{
+        div.hdrWrap{
+            header{
+                @include mix.heights(mob,1);
+                overflow: hidden;
+                &.on{
+                    @include mix.heights(mob,5);
+                }
+                h1{
+                    @include mix.heights(mob,1);
+                    width:mix.$wdMob;
+                }
+                .nav{
+                    display: block;
+                    li{
+                        @include mix.lhz(mob,1);
+                    }
+                }
+            }
+        }
+        div.mnWrap{
+            @include mix.pdn(mob,top,2.5);
+            @include mix.pdn(mob,bottom,1);
+            @include mix.imgNw(bottom,cover);
+            main{
+                .mnLeft {
+                    width: 100%;
+                    h2{
+                        @include mix.fontz(mob,1.8);
+                    }
+                }
+            }
+        }
+    };
 </style>

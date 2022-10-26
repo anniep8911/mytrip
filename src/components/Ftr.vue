@@ -34,39 +34,31 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@mixin tab{
-    @media (min-width:0px) and (max-width:1024px) {
-      @content;
-    }
-}
-  @mixin mob{
-    @media (min-width:0px) and (max-width:420px) {
-      @content;
-    }
-}
+@use './mixins.scss' as mix;
     div.bnrWrap{
         background-image: url('../assets/index_bnr01.jpg');
         margin-top: min(3rem,120px);
         background-repeat: no-repeat;
         background-position: top;
         background-size: cover;
-        @include tab{
-            margin-top: min(2rem,80px);
-        }
+        @include mix.mob{
+            display: none;
+        };
         .bnr{
             padding: min(4rem, 160px) 0;
             color: #fff;
             text-align: center;
-            @include tab{
+            @include mix.tab{
                 padding: max(0.5rem, 20px) 0;
-            }
+            };
+        
             h2{
                 font-size: min(4.8em,48px);
                 line-height: min(2rem,80px);
                 text-transform: capitalize;
-                @include tab{
+                @include mix.tab{
                     font-size: max(1.5em,15px);
-                }
+                };
             }
             .btn{
                 width: 30%;
@@ -75,9 +67,9 @@ export default {
                 margin-top: min(1rem,40px);
                 line-height: min(1rem,40px);
                 text-transform: uppercase;
-                @include tab{
+                @include mix.tab{
                     margin-top: min(0.5rem,20px);
-                }
+                };
                 cursor: pointer;
                 position: relative;
                 &::before{
@@ -103,10 +95,14 @@ export default {
     div.ftrWrap{
         background-color: #003333;
         color: #fff;
-        @include tab{
+        @include mix.tab{
             height: 60px;
             overflow: hidden;
-        }
+        };
+        @include mix.mob{
+            @include mix.mzn(mob,top,1);
+            /*여기안에 모바일 반응형 내용입력*/
+        };
         footer{
             width: 80%;
             max-width: 1080px;
@@ -114,10 +110,10 @@ export default {
             display: flex;
             justify-content: space-between;
             padding: 80px 0;
-            @include tab{
+            @include mix.tab{
                 padding: 0;
                 display: block;
-            }
+            };
             div.ftrLeft{
                 div.logo{
                     color: transparent;
@@ -127,12 +123,13 @@ export default {
                     background-size: contain;
                     background-repeat: no-repeat;
                     background-position: left;
-                    @include tab{
+                    @include mix.tab{
                         margin: 0 auto;
                         height: 30px;
                         width: 100px;
                         margin-top: 10px;
-                    }
+                    };
+                    
                 }
                 h4{
                    margin-top: min(4.5rem, 180px);

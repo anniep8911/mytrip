@@ -63,14 +63,14 @@
 </template>
 <script>
 export default {
-    props:['visitor'],
+    props:['visitor','device_type'],
     data(){
         return{
             cont1TT:['활동적인 액티비티','데일리 여행','패키지 여행'],
             cont2TT:[
                 {titie: ['여행의 시작부터 끝까지','쉐도우복싱 연습','토게피가 출연하는 무인도의 아름다운 바닷가!','로스트밸리 순록과 함께 패키지'], exp:'교통, 숙박, 코스, 원하는 여행의 종류까지 트립스토어에서 처음부터 끝까지 함께 계획해주는 나만의 맞춤형 플랜!',exp2:'주짓수 세계챔피언과 맞대결! 이기면 챔피언벨트는 당신의 것!'},
                 {titie: ['모자냄새맡기 대회','당근매칭 현피시스템','천평이 넘는 땅에서 실전 모동숲체험','한 방에 최대 50명까지 수용가능한 멘션'], exp:'여행지의 부담스러운 입장료? 음식? 숙소와 렌트카? 걱정마세요. 대회에서 일등하면 공짜!',exp2:'무인도 데일리체험! 당장 무인도에 가져갈 3가지부터 챙기세요!'},
-                {titie: ['계획이 필요 없는 여행','도장 도장깨기!','무인도에서 이루는 내집마련의 꿈','여러사람과 즐기는 원룸형 페스티벌'], exp:'추천 해주는 여행 코스를 이용해보세요. 우리가 다 계획해줄게요. 하지만 내가 찾던 바로 그 여행일거예요.',exp2:'하최몇? 하루에 최대 몇명이랑 같이 이동해보셨나요? 당신의 기록을 깨드립니다.'},
+                {titie: ['계획이 필요 없는 여행','도장 도장깨기!','무인도에서 이루는 내집마련의 꿈','여러사람과 즐기는 원룸형 페스티벌'], exp:'계획? 무계획이 계획이죠! J타입의 당신도 파워 P로 만들어줄 수 있는 완벽한 코스!',exp2:'하최몇? 하루에 최대 몇명이랑 같이 이동해보셨나요? 당신의 기록을 깨드립니다.'},
             ],
             ind:0,
             imgClchange:0,
@@ -78,16 +78,32 @@ export default {
     },
     methods:{
         move(i){
-            window.scrollTo({top:this.$refs.cntWr.offsetTop,behavior:'smooth'});
-            this.ind = i;
+            if(this.device_type == 'pc'){
+                window.scrollTo({top:this.$refs.cntWr.offsetTop-40,behavior:'smooth'});
+                this.ind = i;
+            }else{
+                window.scrollTo({top:this.$refs.cntWr.offsetTop-150,behavior:'smooth'});
+                this.ind = i;
+            }
         },
         move2(ind){
-            if(this.ind==0){
-                window.scrollTo({top:this.$refs.cntWr1.offsetTop,behavior:'smooth'});
-                this.imgClchange=0;
+            if(this.device_type == 'pc'){
+                if(this.ind==0){
+                    window.scrollTo({top:this.$refs.cntWr1.offsetTop-40,behavior:'smooth'});
+                    this.imgClchange=0;
+                }else{
+                    window.scrollTo({top:this.$refs.cntWr3.offsetTop-40,behavior:'smooth'});
+                    this.imgClchange=ind;
+                }
             }else{
-                window.scrollTo({top:this.$refs.cntWr3.offsetTop,behavior:'smooth'});
-                this.imgClchange=ind;
+                if(this.ind==0){
+                    window.scrollTo({top:this.$refs.cntWr1.offsetTop-150,behavior:'smooth'});
+                    this.imgClchange=0;
+                }else{
+                    window.scrollTo({top:this.$refs.cntWr3.offsetTop-150,behavior:'smooth'});
+                    this.imgClchange=ind;
+                }
+                
             }
         },
         totop(){
@@ -97,89 +113,164 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@mixin tab{
-    @media (min-width:0px) and (max-width:1024px) {
-      @content;
-    }
-}
-  @mixin mob{
-    @media (min-width:0px) and (max-width:420px) {
-      @content;
-    }
-}
+@use './mixins.scss' as mix;
+
 .cntWrap{
     .content.cnt01{
         section{
             display: flex;
             justify-content: space-between;
+            @include mix.mob{
+               display: block;
+            };
             article{
-                width: calc(100% / 3 - 1.8%);
-                height: min(8rem, 320px);
+                width: calc(100% / 3 - mix.$gt);
+                @include mix.heights(pc,8);
                 perspective: 1000px;
+                position: relative;
+                @include mix.mob{
+                    width: 100%;
+                    @include mix.mzn(mob,top,0.3);
+                    @include mix.heights(mob,3);
+                };
+
                 &:hover{
                     .image{
                         transform: rotateY(-180deg);
+                        @include mix.tab{
+                            transform: rotateY(0deg);
+                        };
                     }
                     .texts{
                         transform: rotateY(0deg);
                     }
                 }
+            
                 .image{
                     backface-visibility: hidden;
                     transition: transform 1s;
                     @for $i from 1 through 3{
+                        @include mix.heights(pc,8);
+                        @include mix.mob{
+                            @include mix.heights(mob,3);
+                        };
                         &.i#{$i}{
                             background-image: url('../assets/index_cnt01_i#{$i}.jpg');
-                            height: min(8rem, 320px);
                         }
                     }
                 }
                 .texts{
                     background-color: #1d2548;
                     color: #fff;
-                    font-size: min(2.5em,25px);
-                    line-height: min(1rem,40px);
-                    margin-top:  max(-8rem, -320px);
+                    @include mix.fontz(pc,2.5);
+                    @include mix.lhz(pc,1);
+                    position: absolute;
+                    top: 0;left: 0;
+                    width: 100%;
                     transform: rotateY(-180deg);
-                    padding: min(3rem, 120px) 0;
+                    @include mix.pdn(pc,top,3);
+                    @include mix.pdn(pc,bottom,3);
                     backface-visibility: hidden;
                     transition: transform 1s;
                     text-align: center;
                     cursor: pointer;
+                    @include mix.tab{
+                        transform: rotateY(0deg);
+                        @include mix.pdn(mob,top,0);
+                        @include mix.pdn(mob,bottom,0);
+                        @include mix.lhz(mob,0.5);
+                        background-color: rgba(42, 46, 62, 0.7);
+                        h3{
+                            @include mix.fontz(mob,1.5);
+                        }
+
+                    };
                 }
             }
         }
     }
     .content.cnt02{
+        position: relative;
+        @include mix.tab{
+           @include mix.mzn(mob,top,1);
+        };
         header{
             width: 50%;
             padding: min(3.4rem, 136px) 5%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            margin: auto;
+            @include mix.tab{
+                @include mix.pdn(mob,top,1);
+                @include mix.pdn(mob,bottom,1);
+            };
+            @include mix.mob{
+              width: 100%;
+              padding: 0;
+              text-align: center;
+              padding-top: 20px;
+            };
             h5{
                 line-height: min(2rem,20px);
                 height: min(1rem, 40px);
                 overflow: hidden;
                 margin-top: min(2em, 20px);
+                @include mix.tab{
+                    @include mix.fontz(mob,1.3);
+                    @include mix.heights(mob,0.5);
+                };
+                @include mix.mob{
+                  width: 80%;
+                  margin: 0 auto;
+                  overflow: visible;
+                  height: auto;
+                  margin-top: 20px;
+                    
+                };
             }
             p{
                 font-size: min(1.4em,14px);
                 line-height: min(0.5rem,20px);
                 height: min(5rem, 200px);
                 overflow: hidden;
+                @include mix.tab{
+                    @include mix.fontz(mob,1.2);
+                    @include mix.heights(mob,2);
+                    @include mix.lhz(mob,0.5);
+                };
+                @include mix.mob{
+                  width: 80%;
+                  margin: 0 auto;
+                  margin-top: 10px;
+                  @include mix.heights(mob,1);
+
+                };
             }
             background-color: rgba(255,255,255,0.8);
+            @include mix.tab{
+               .btn{
+                margin: 0 auto;
+                margin-top: 20px;
+               }
+            };
         }
         section{
-            margin-top: max(-16rem, -680px);
             z-index: -2;
             position: relative;
+            @include mix.tab{
+              margin-top: 0;
+            };
             article{
                 width: 100%;
                 .image{
                     width: max(calc((100vw - 1080px) / 2 + 100%),calc((100vw - 80vw) / 2 + 100%));
-                    @include tab{
-                        width: 100%;
-                    }
                     height: min(16rem, 680px);
+                    @include mix.tab{
+                        width: 100%;
+                        @include mix.heights(mob,7);
+                    };
                     transition: background-image 0.5s;
                     transition-delay: 0.5s;
                     @for $i from 0 through 3{
@@ -196,21 +287,52 @@ export default {
         section{
             display: flex;
             justify-content: space-between;
+            @include mix.mob{
+              display: block;
+            };
             article{
                 width: calc(100% / 3 - 1.8%);
+                @include mix.mob{
+                    display: flex;
+                    width: 100%;
+                    margin-top: 20px;
+                    div{
+                        width: 50%;
+                        &.texts{
+                            padding-left: 20px;
+                            h3{
+                                @include mix.fontz(mob,1.5);
+                            }
+                            h5{
+                                @include mix.fontz(mob,1.2);
+                            }
+                            p{
+                               display: none;
+                            }
+                        }
+                    }
+                };
                 .image{
                     height: min(9rem,360px);
+                    transition-delay: 0.5s;
+                    transition-property: all;
+                    transition-duration: 0.5s;
+                    opacity: 0;
                     @for $i from 1 through 3{
                         &.i0-#{$i}{
+                            opacity: 1;
                             background-image: url('../assets/index_cnt03_i0-#{$i}.jpg');
                         }
                         &.i1-#{$i}{
+                            opacity: 1;
                             background-image: url('../assets/index_cnt03_i1-#{$i}.jpg');
                         }
                         &.i2-#{$i}{
+                            opacity: 1;
                             background-image: url('../assets/index_cnt03_i2-#{$i}.jpg');
                         }
                         &.i3-#{$i}{
+                            opacity: 1;
                             background-image: url('../assets/index_cnt03_i3-#{$i}.jpg');
                         }
                     }
@@ -222,6 +344,12 @@ export default {
             display: flex;
             justify-content: space-between;
             margin-left: auto;
+            @include mix.mob{
+            width: 100%;
+              div{
+                width: 50%;
+              }
+            };
             .btn{
                 width: 48%;
             }

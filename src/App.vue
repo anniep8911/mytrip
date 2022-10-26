@@ -1,7 +1,7 @@
 <template>
     <Hdr @ind="indFn" :visitor="visitor" :hello="hello"></Hdr>
     <Modal @msg="msgBB" v-if="visible"></Modal>
-    <RouterView :visitor="visitor"></RouterView>
+    <RouterView :visitor="visitor" :device_type="device_type"></RouterView>
     <Ftr></Ftr>
 </template>
 
@@ -18,6 +18,7 @@ export default {
       hello:'',
       ind:0,
       upup:0,
+      device_type:'pc',
     }
   },
   components: {
@@ -27,6 +28,7 @@ export default {
   },
   mounted(){
     this.$nextTick(function(){
+      const wd =window.innerWidth;
       if(document.cookie == '' || document.cookie == 'nobody'){
         this.visible= true;
         this.hello = '첫 방문이시네요!'
@@ -34,6 +36,14 @@ export default {
         this.visible=false;
         this.visitor = document.cookie;
         this.hello = '또 만났네요!'
+      }
+
+      if(wd>=1025){
+        this.device_type = 'pc'
+      }else if(wd<=1024 && wd >= 480){
+        this.device_type = 'tab'
+      }else{
+        this.device_type = 'mob'
       }
     })
   },
@@ -60,13 +70,8 @@ export default {
 
 <style lang="scss">
   // reset
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
-  body,h1,h2,h3,h4,h5,h6,ul,li,p,a{margin: 0;padding: 0;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
-  a{color:inherit;text-decoration:none;width: 100%;height: 100%; display: inline-block;}
-  h3 a{display: inline;}
-  html{font-size:2.96296296296vw; font-family: 'Noto Sans KR'; font-weight: 300; overflow-x: hidden;}
-  body{position: relative; font-size:0.74074074074vw;}
-  ul{list-style: none;}
+  @use './components/reset.css';
+  @use './components/mixins.scss' as mix;
   
   // mixins
   @mixin device($dev){
@@ -99,8 +104,7 @@ export default {
   div.cntWrap{
     margin-top: min(3rem, 120px);
     @include tab{
-      margin-top: max(1rem, 40px);
-      
+      @include mix.mzn(mob,top,0.5);
     }
     div.content{
       @include device('pc');
@@ -182,6 +186,11 @@ export default {
           overflow: hidden;
           transition: color 1s;
           font-weight: 700;
+          @include mix.tab{
+            @include mix.mzn(mob,top,0.5);
+            @include mix.fontz(mob,1.3);
+            @include mix.lhz(mob,0.8);
+          };
           cursor: pointer;
           &::before{
               content: '';

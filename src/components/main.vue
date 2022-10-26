@@ -1,22 +1,10 @@
 <template>
     <div class="mnWrap" v-bind:class=titleData.bgi>
-        <main>
-            <div class="mnLeft">
-                <h2>{{titleData.title}}</h2>
-                <p v-if="titleData.sbtitle">{{visitor}}님,{{hello}}</p>
-            </div>
-            <div class="mnRight"></div>
-        </main>
+       
     </div>
 </template>
 <script>
 export default {
-    props:['visitor','hello','titleData'],
-    data(){
-        return{
-            bg :'bg02',
-        }
-    },
 }
 </script>
 <style lang="scss" scoped>
@@ -26,12 +14,7 @@ export default {
         transition : all 0.2s;
         color: $test;
         background-color: $test;
-        @for $i from 1 through 5{
-            &.bg0#{$i}{
-                background-image: url('../assets/main0#{$i}.jpg');
-                opacity: 1;
-            }
-        }
+  
         background-position: top;
         background-size: cover;
         background-attachment: fixed;
