@@ -59,19 +59,57 @@ export default {
 </script>
 
 <style lang="scss">
+  // reset
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
-  body,h1,h2,h3,h4,h5,h6,ul,li,p,a{margin: 0;padding: 0;}
-  a{color:inherit;text-decoration:none}
-  html{font-size: 3.7vw; font-family: 'Noto Sans KR'; font-weight: 300; overflow-x: hidden;}
-  body{position: relative; font-size:0.95vw;}
+  body,h1,h2,h3,h4,h5,h6,ul,li,p,a{margin: 0;padding: 0;-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+  a{color:inherit;text-decoration:none;width: 100%;height: 100%; display: inline-block;}
+  h3 a{display: inline;}
+  html{font-size:2.96296296296vw; font-family: 'Noto Sans KR'; font-weight: 300; overflow-x: hidden;}
+  body{position: relative; font-size:0.74074074074vw;}
   ul{list-style: none;}
-  //공통영역
-  div.cntWrap{
-    margin-top: min(3rem, 120px);
-    div.content{
+  
+  // mixins
+  @mixin device($dev){
+    @if($dev == 'pc'){
       width: 80%;
       max-width: 1080px;
       margin: 0 auto;
+    }@else if($dev == 'tab'){
+      width: 90%;
+      max-width: 700px;
+      margin: 0 auto;
+    }@else if($dev==mob){
+      width: 90%;
+      margin: 0 auto;
+    }
+  }
+
+  @mixin tab{
+    @media (min-width:0px) and (max-width:1024px) {
+      @content;
+    }
+  }
+  @mixin mob{
+    @media (min-width:0px) and (max-width:420px) {
+      @content;
+    }
+  }
+  
+  //common
+  div.cntWrap{
+    margin-top: min(3rem, 120px);
+    @include tab{
+      margin-top: max(1rem, 40px);
+      
+    }
+    div.content{
+      @include device('pc');
+      @include tab{
+        @include device('tab');
+      }
+      @include mob{
+        @include device('mob');
+      }
       header{
         h2{
           font-size: min(3.6em, 36px);
@@ -86,9 +124,26 @@ export default {
           margin-top: min(2em, 20px);
           overflow: hidden;
         }
+        @include tab{
+          h2{
+          font-size: max(1.6em, 16px);
+        }
+        h5{
+          font-size: max(1.2em,12px);
+        }
+        p{
+          font-size: max(1.2em,12px);
+          line-height: max(2em, 20px);
+          margin-top: max(1em, 10px);
+        }
+        }
       }
       section{
         margin-top: min(1rem, 40px);
+        @include tab{
+          margin-top: max(0.5rem, 20px);
+
+        }
         .image{
           background-repeat: no-repeat;
           background-position:center;
@@ -144,6 +199,17 @@ export default {
               }
               color: #fff;
           }
+      }
+    }
+  }
+  .bnrWrap{
+    .banner{
+      @include device('pc');
+      @include tab{
+        @include device('tab');
+      }
+      @include mob{
+        @include device('mob');
       }
     }
   }

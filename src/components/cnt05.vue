@@ -5,7 +5,7 @@
                 <article>
                     <div class="image" :class="'i'+$route.query.name"></div>
                     <div class="texts">
-                        <h3 v-if="$route.query.name>0">{{visitor}}님, 일정이 완료 되었어요!</h3>
+                        <h3 v-if="$route.query.name>=0">{{visitor}}님, 일정이 완료 되었어요!</h3>
                         <h3 v-if="$route.query.name==undefined || $route.query.name==''" @click="totop"> <router-link to="./cnt01" style="color:blue;">여기</router-link>로 가서 일정을 선택해주세요!</h3>
                         <h5>추천여행지 : {{tra[$route.query.name]}}</h5>
                         <p>크레타 섬을 제외하고 키클라데스 제도 최남단에 있는 그리스 에게 해의 섬이다. 이 섬의 정식 명칭은 티라(Θήρα)로 또다른 명칭인 산토리니(Σαντορίνη)는 라틴 제국 시절 에게 해 일대를 차지한 베네치아인들이 섬에 있던 성 이레네를 모신 성당에서 따와 이 섬을 '산타 이리니(Santa Irini)'라고 부른 것에서 유래한 것이다. 그 후 수세기 동안 이 섬은 산토리니라고 불렸고 그리스가 독립한 이후 이 섬은 과거에 쓰이던 '티라'라는 이름을 되찾았지만 여전히 전세계적으로는 '산토리니'라는 이름으로 유명하다.</p>
@@ -14,8 +14,8 @@
                         <h6>3박 4일 일정</h6>
                         <p>total 320,000원</p>
                         <div class="btns">
-                            <div class="btn">결제하기</div>
-                            <div class="btn"><router-link to="./cnt01">다시 선택하기</router-link></div>
+                            <div class="btn" @click="pay">결제하기</div>
+                            <div class="btn" @click="totop"><router-link to="./cnt01">다시 선택하기</router-link></div>
                         </div>
                     </div>
                 </article>
@@ -106,6 +106,9 @@ export default {
         },
         totop(){
             window.scrollTo({top:0,behavior:'smooth'});
+        },
+        pay(){
+            alert('결제시스템 준비중입니다.');
         }
     }
 }

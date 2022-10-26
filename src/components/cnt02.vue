@@ -100,9 +100,10 @@ export default {
     width: 80%;
     max-width: 1080px;
     margin: 0 auto;
-    background-color: rgba(0,0,0,0.5);
     padding: min(1rem, 40px) 0;
     margin-top: max(-6rem,-240px);
+    background-color: rgba(255,255,255,0.3);
+    position: relative;
     h3{
         color: #fff;
         font-size: min(1.8em, 18px);

@@ -24,6 +24,8 @@ export default {
         background-image: url('../assets/main01.jpg');
         opacity: 0;
         transition : all 0.2s;
+        color: $test;
+        background-color: $test;
         @for $i from 1 through 5{
             &.bg0#{$i}{
                 background-image: url('../assets/main0#{$i}.jpg');
